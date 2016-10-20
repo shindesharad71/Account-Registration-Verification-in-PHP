@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Intern Assingment - Register</title>
 <link rel='shortcut icon' href='favicon.ico' type='image/x-icon'/ >
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/styles.css" rel="stylesheet">
 </head>
 <?php
@@ -30,6 +30,9 @@
 				<div class="panel-body">
 					<form class="" method="post" action="">
 						<fieldset>
+							<div class="form-group">
+								<input class="form-control input-lg" placeholder="Name" name="name" type="text" required>
+							</div>
 							<div class="form-group">
 								<input class="form-control input-lg" placeholder="Email" name="email" type="email" required>
 							</div>

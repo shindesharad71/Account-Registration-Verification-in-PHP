@@ -23,28 +23,34 @@ function login()
 		while($row = mysqli_fetch_assoc($result))
 		{
 			$active = $row['active'];
+			$status = $row['status'];
 		}
 		if($rows == 1)
 		{
-			if($active == "0")
+			if($status == "0")
 			{
 				echo '<div class="text-center alert bg-danger col-md-offset-4 col-md-4" role="alert"><span>Sorry <b>'.$username.'</b>, your account is not activated yet, <b>confirm your email</b> to activate account</span></div>';
 			}
 			else
 			{
-				$_SESSION['username'] = $username;
-				echo '<div class="text-center alert bg-success col-md-offset-4 col-md-4" role="alert"><span>Welcome back, <b>'.$_SESSION['username'].'</b>!</span></div>';
-				if($username == "admin")
+				if($active == "0")
 				{
-					echo '<script>setTimeout(function () { window.location.href = "admin.php";}, 1000);</script>';
+					echo '<div class="text-center alert bg-danger col-md-offset-4 col-md-4" role="alert"><span>Sorry <b>'.$username.'</b>, Thank you for email confirmation, <b>your account will be activate by our team shortly</b></span></div>';
 				}
 				else
 				{
-					echo '<script>setTimeout(function () { window.location.href = "home.php";}, 1000);</script>';
-				}
-				
-			}
-			
+					$_SESSION['username'] = $username;
+					echo '<div class="text-center alert bg-success col-md-offset-4 col-md-4" role="alert"><span>Welcome back, <b>'.$_SESSION['username'].'</b>!</span></div>';
+					if($username == "admin")
+					{
+						echo '<script>setTimeout(function () { window.location.href = "admin.php";}, 1000);</script>';
+					}
+					else
+					{
+						echo '<script>setTimeout(function () { window.location.href = "home.php";}, 1000);</script>';
+					}
+				}	
+			}	
 		}
 		else
 		{
@@ -80,7 +86,8 @@ function register()
 
 	if(isset($_POST['register'])) 
 	{
-		
+		$name = $_POST['name'];
+		$name = stripslashes($name);
 		$email = $_POST['email'];
 		$email = stripslashes($email);
 		$username = $_POST['username'];
@@ -90,7 +97,7 @@ function register()
 		$code = md5($email);
 		$active = "0";
 		$status = "0";
-		$query = "INSERT into intern (email, username, password, active, code, status) VALUES ('$email', '$username', '$password', '$active', '$code', '$status')";
+		$query = "INSERT into intern (name, email, username, password, active, code, status) VALUES ('$name', '$email', '$username', '$password', '$active', '$code', '$status')";
 		$result = mysqli_query($con,$query);
 		$rows = mysqli_affected_rows($con);
 
@@ -170,6 +177,69 @@ function all_users($filter)
 	?>
 	<table class="table table-bordered table-responsive">
 			<tr class="alert-info">
+				<th><h4>Name</h4></th>
+				<th><h4>Username</h4></th>
+				<th><h4>Email</h4></th>
+				<th><h4>Email Status</h4></th>
+				<th><h4>Upload</h4></th>
+				<th><h4>Action</h4></th>
+			</tr>
+	<?php
+	while($row = mysqli_fetch_assoc($result))
+		{
+
+			if($row['status'] == "0")
+				$email_status = "Unverified";
+			if($row['status'] == "1")
+				$email_status = "Verified";
+			$upload = $row['upload'];
+			echo '<tr>
+				<td>'.$row['name'].'</td>
+				<td>'.$row['username'].'</td>
+				<td>'.$row['email'].'</td>
+				<td>'.$email_status.'</td>';
+				if(empty($upload))
+				{
+					echo '<td>-</td>';
+				}
+				else
+				echo '<td><a class="btn btn-info" target="_blank" href="'.$upload.'">See Upload</a>';
+			
+				if($row['username'] == 'admin')
+				{
+					echo '<td>-</td>';
+				}
+				elseif ($row['active'] == "1") 
+				{
+					echo '<td><a class="btn btn-danger" href="admin_delete.php?id='.$row['id'].'">Delete</a></td>';
+				}
+				else
+				{
+					echo '<td><a class="btn btn-success" href="admin_activate.php?id='.$row['id'].'">Activate</a>';
+					echo ' | <a class="btn btn-danger" href="admin_delete.php?id='.$row['id'].'">Delete</a></td>';
+				}
+			echo '</tr>';
+		}
+	echo '</table>';
+	return false;
+}
+
+/*******************************
+ * serch from user data table.
+ *******************************/
+
+function search_users($term)
+{
+	global $con;
+
+	$query = "SELECT * FROM intern WHERE username LIKE '%$term%' OR name LIKE '%$term%'";
+	$result = mysqli_query($con,$query);
+	$rows = mysqli_affected_rows($con);
+	echo mysqli_error($con);
+	?>
+	<table class="table table-bordered table-responsive">
+			<tr class="alert-info">
+				<th><h4>Name</h4></th>
 				<th><h4>Username</h4></th>
 				<th><h4>Email</h4></th>
 				<th><h4>Email Status</h4></th>
@@ -185,6 +255,7 @@ function all_users($filter)
 				$email_status = "Verified";
 
 			echo '<tr>
+				<td>'.$row['name'].'</td>
 				<td>'.$row['username'].'</td>
 				<td>'.$row['email'].'</td>
 				<td>'.$email_status.'</td>';

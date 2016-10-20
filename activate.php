@@ -32,12 +32,12 @@
 	
 			if($rows == 1)
 			{
-				$query1 = "UPDATE intern SET active='1' WHERE code='$code'";
+				$query1 = "UPDATE intern SET status='1' WHERE code='$code'";
 				mysqli_query($con,$query1);
 				$rows1 = mysqli_affected_rows($con);
 				if($rows1 == 1)
 				{
-					echo '<div class="text-center alert bg-success col-md-offset-4 col-md-4" role="alert"><span>Success! Your <b>Account is Activated!</b><br><a class="btn btn-info" href="index.php">click here to login</a></span></div>';
+					echo '<div class="text-center alert bg-success col-md-offset-4 col-md-4" role="alert"><span>Success! Your <b>Email is Confirmed!</b> Your Account will be Activate in Shortly.</span></div>';
 				}
 				else
 				{

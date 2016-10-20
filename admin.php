@@ -5,6 +5,11 @@
 	$session_name = $_SESSION['username'];
 	$total_members = get_all_status();
 	$core_members = get_unverified_status();
+	$filter = $_POST['sort'];
+	if(empty($filter))
+	{
+		$filter = "";
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -63,7 +68,7 @@
 					</div>
 					<div class="col-sm-9 col-lg-7 widget-right">
 						<div class="large"><?php echo $core_members; ?></div>
-						<div class="text-muted">Unverified Members</div>
+						<div class="text-muted">Unactivated Members</div>
 					</div>
 				</div>
 			</div>
@@ -71,7 +76,20 @@
 	</div><!--/.row-->
 
 	<div class="container">
-		<?php all_users(); ?>
+		<div class="pull-right col-md-6">
+		<div class="col-md-3">order by</div>
+			<div class="col-md-4">
+			<form action='admin.php' method='post' name='form_filter' >
+			<select class="form-control" name="sort">
+				<option name="date" value="date">Date</option>
+				<option name="name" value="name">Name</option>
+			</select>
+			<input class="btn btn-sm btn-primary" type='submit' value ='Filter'>
+			</form>
+			</div>
+			</div>
+		<br><br>
+		<?php all_users($filter); ?>
 	</div><!--/.row-->
 <div class="text-center" style="margin-top: 75px; color: #000;"><b>Made with <i style="color: red;">&#10084;</i> By <a href="http://sharadshinde.in" target="blank">Sharz</a> 2016</b></div>
 	<script>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2016 at 01:56 AM
+-- Generation Time: Oct 20, 2016 at 09:07 AM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
@@ -31,6 +31,7 @@ CREATE TABLE `intern` (
   `username` varchar(70) NOT NULL,
   `password` varchar(70) NOT NULL,
   `email` varchar(250) NOT NULL,
+  `status` varchar(5) NOT NULL,
   `active` varchar(5) NOT NULL,
   `code` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -39,8 +40,8 @@ CREATE TABLE `intern` (
 -- Dumping data for table `intern`
 --
 
-INSERT INTO `intern` (`id`, `username`, `password`, `email`, `active`, `code`) VALUES
-(1, 'admin', 'admin', 'admin@portal.com', '1', '');
+INSERT INTO `intern` (`id`, `username`, `password`, `email`, `status`, `active`, `code`) VALUES
+(1, 'admin', 'admin', 'admin@portal.com', '1', '1', '');
 
 --
 -- Indexes for dumped tables
@@ -61,7 +62,7 @@ ALTER TABLE `intern`
 -- AUTO_INCREMENT for table `intern`
 --
 ALTER TABLE `intern`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
